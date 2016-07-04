@@ -59,7 +59,47 @@ class Graph(dict):
                 if j == i:
                     break
                 self.add_edge(Edge(v, w))
+                
+    def add_regular_edges(self, k=2):
+        vs = self.vertices
+        if k >= len(vs):
+            raise ValueError, ("cannot build a regular graph with " +
+                               "degree >= number of vertices.")
+        
+        if is_odd(k):
+            if is_odd(len(vs)):
+                raise ValueError, ("cannot build a regular graph with a odd degree and odd number of vertex")
+            self.add_regular_edges_even(k-1)
+            self.add_regular_edges_odd()
+        else:
+            self.add_regular_edges_even(k)
+            
+    def add_regular_edges_even(self, k = 2):
+        vs = self.vertices()
+        double = vs * 2
+        for i, v in enumerate(vs):
+            for j in range(1, k/2 + 1):
+                w = double[i + j]
+                self.add_edge(Edge(v, w))
+                
+                
+    def adde_regular_edge_odd(self):
+        vs = self.vertices()
+        n = len(vs)
+        reduplicated_list = vs * 2
+        
+        for i in range(n/2):
+            v = reduplicated_list[i]
+            w = reduplicated_list[i + n/2]
+            self.add_edge(Edge(v, w))
+                
+        
+        
+                               
+        
                                 
+def is_odd(k):
+    return x % 2
          
          
 class Vertex(object):
