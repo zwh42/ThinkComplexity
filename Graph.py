@@ -5,6 +5,7 @@ Created on Thu Jun 30 16:15:12 2016
 @author: wzhao
 """
 
+
 class Graph(dict):
     def __init__(self, vs = [], es = []):
         """
@@ -92,6 +93,42 @@ class Graph(dict):
             v = reduplicated_list[i]
             w = reduplicated_list[i + n/2]
             self.add_edge(Edge(v, w))
+            
+    
+    def is_connected(self):
+        vs = self.vertices()
+        for v in vs:
+            v.visited = False
+       
+        vertex_queue = [vs[0]]
+       
+        while vertex_queue:
+            print "vertex queue:", vertex_queue
+            #raw_input()            
+            v = vertex_queue.pop()
+            print v, v.visited
+            if v.visited:
+               continue
+            v.visited = True
+            #vertex_queue.extend(v self.out_vertices(v))
+            for w in self.out_vertices(v):
+                if not w.visited:
+                    vertex_queue.append(w)
+           
+        print "connect test:"       
+        for v in vs:
+            if not v.visited:
+                print v                
+                return False
+       
+        return True       
+       
+        
+        
+        
+            
+            
+            
                 
         
         
@@ -143,6 +180,25 @@ if __name__ == "__main__" :
     
     print g.edges()
     print g.out_vertices(x)
+    
+    print "unit test"
+    import random    
+    g = Graph()
+    for i in range(9):
+        g.add_vertex(Vertex("v" + str(i)))
+    
+    print "vertex: ", g.vertices()
+    
+    for i, v in enumerate(g.vertices()):
+        for j, w in enumerate(g.vertices()):
+            if True:#random.random() > 0.5:
+                if True: #j != i:
+                    g.add_edge(Edge(v, w))
+    
+    print "Edges: ", g.edges()
+
+    print "is connected ?", g.is_connected()                    
+        
     
     
             
